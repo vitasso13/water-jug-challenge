@@ -1,6 +1,9 @@
 import { Step } from "../mapping/stepType";
 import { JugsState } from "../mapping/jugsStateType";
 import gcd from "../utils/math_utils";
+import NodeCache from "node-cache";
+
+const myCache = new NodeCache();
 
 function generatePath(endingState: JugsState): Step[] {
   let path: Step[] = [];
@@ -29,6 +32,13 @@ function jugService(
   y_capacity: number,
   z_amount_wanted: number
 ): Step[] | string {
+  const key = `${x_capacity}-${y_capacity}-${z_amount_wanted}`;
+  const value = myCache.get(key);
+
+  if (value !== undefined) {
+    return value as Step[] | string;
+  }
+
   if (
     z_amount_wanted > Math.max(x_capacity, y_capacity) ||
     z_amount_wanted % gcd(x_capacity, y_capacity) !== 0
@@ -51,15 +61,19 @@ function jugService(
     const current = queue.shift();
 
     if (
-      (current?.bucketX === z_amount_wanted) ||
-      (current?.bucketY === z_amount_wanted)
+      current?.bucketX === z_amount_wanted ||
+      current?.bucketY === z_amount_wanted
     ) {
-      return generatePath(current);
+      const result = generatePath(current);
+      myCache.set(key, result);
+      return result;
     }
 
     pushStates(queue, current as JugsState, x_capacity, y_capacity, visited);
   }
 
+  myCache.set(key, "No solution possible");
+  
   return "No solution possible";
 }
 
