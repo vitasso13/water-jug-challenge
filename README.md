@@ -11,11 +11,16 @@ These instructions will get you a copy of the project up and running on your loc
 - Node.js >= 20.x
 - npm
 
+### Dependencies
+- dotenv": "^16.4.5",
+- express": "^4.19.2",
+- node-cache": "^5.1.2"
+
 ### Installation
 
 1. Clone the repository
 ```bash
-git clone https://github.com/vitasso13/water-jug-challenge-api.git
+git clone https://github.com/vitasso13/water-jug-challenge.git
 ```
 2. Navigate to the project directory
 ```bash
@@ -41,6 +46,8 @@ The API endpoint is `/jug` and it accepts POST requests. The request body should
 - `x_capacity`: The capacity of the first jug.
 - `y_capacity`: The capacity of the second jug.
 - `z_amount_wanted`: The amount of water you want to measure.
+
+#### Requests will be cached for future repetitions using `NodeCache`
 
 Example request:
 
@@ -87,6 +94,7 @@ Example response `200 OK`:
     ]
 }
 
+
 ```
 Error Responses: \
 `400 Bad Request` for invalid input
@@ -116,24 +124,18 @@ npm test
 
 ## Project Structure
 ```folder
-.
-├── src
-│   ├── routes
-│   │   └── jugRoutes.js
-│   ├── services
-│   │   └── jugService.js
-│   └── app.js
-├── __test__
-│   ├── controllers
-│   │   └── jugController.test.js
-│   ├── models
-│   │   └── jugModel.test.js
-│   ├── routes
-│   │   └── jugRoutes.test.js
-│   └── services
-│       └── jugService.test.js
-├── .gitignore
-├── package.json
-├── package-lock.json
-└── README.md
+src
+├── mapping
+│   └── *All dataclasses and type mappers. 
+├── routes 
+│   └── *Router files of the api. 
+├── services 
+│   └── *Contain all the algorithm logic files 
+└── app.ts * Contain the expressJS and routers
+└── index.ts * Initial point of the application.
+__test__
+├── integration
+│   └── *All integration tests
+├── unit
+│   └── *All unit tests
 ```
