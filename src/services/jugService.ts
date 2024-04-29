@@ -1,6 +1,6 @@
 import { Step } from "../mapping/stepType";
 import { JugsState } from "../mapping/jugsStateType";
-import gcd from "../utils/math_utils";
+import gcd from "../utils/greatestCommonDenominator";
 import NodeCache from "node-cache";
 
 const myCache = new NodeCache();
@@ -11,13 +11,18 @@ function generatePath(endingState: JugsState): Step[] {
   let stepCounter = 0;
 
   while (currentState && currentState.previous) {
-    path.push({
+    const step: Step = {
       step: ++stepCounter,
       bucketX: currentState.bucketX,
       bucketY: currentState.bucketY,
       action: currentState.action,
-      status: currentState === endingState ? "Solved" : undefined,
-    });
+    };
+
+    if (currentState === endingState) {
+      step.status = "Solved";
+    }
+
+    path.push(step);
     currentState = currentState.previous;
   }
 
@@ -27,7 +32,7 @@ function generatePath(endingState: JugsState): Step[] {
   return path;
 }
 
-function jugService(
+function processJug(
   x_capacity: number,
   y_capacity: number,
   z_amount_wanted: number
@@ -144,4 +149,4 @@ function pushStates(
   }
 }
 
-export default jugService;
+export default processJug;
