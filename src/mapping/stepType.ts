@@ -3,6 +3,6 @@ type Step = {
   bucketX: number;
   bucketY: number;
   action: string;
-  status?: string;
+  status?: string | undefined;
 };
 export { Step };
