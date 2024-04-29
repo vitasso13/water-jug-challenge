@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-- Node.js >= 20.x
+- Node.js >= 18.x
 - npm
 
 ### Dependencies
@@ -111,8 +111,8 @@ Error Responses: \
 ```
 The api also have a health check `GET` on `/`
 If the service is running, it must return: 
-```json
-Health Checked. Server is running fine. Cheers! ;)
+```bash
+"Health Checked. Server is running fine. Cheers! ;)"
 ```
 ## Running the tests
 
@@ -127,10 +127,14 @@ npm test
 src
 ├── mapping
 │   └── *All dataclasses and type mappers. 
+├── middlewares 
+│   └── *Middleware files of the api. 
 ├── routes 
 │   └── *Router files of the api. 
 ├── services 
 │   └── *Contain all the algorithm logic files 
+├── utils 
+│   └── *Util methods that might be used repeatedly across the project. 
 └── app.ts * Contain the expressJS and routers
 └── index.ts * Initial point of the application.
 __test__
